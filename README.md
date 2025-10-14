@@ -15,19 +15,18 @@ Writing lots of notes in Notepad can get messy. Finding the right file or senten
 
 ---
 
-## 🗂️ Project Structure
+## 📂 Project Structure
 
+```bash
 lookup/
-├── notes/ # your .txt files
-├── fine_tune_notes.py # train model on your notes
-├── build_hier_embeddings.py # build embeddings
-├── semantic_search_hier.py # search interface
-├── requirements.txt # dependencies
-└── README.md # this file
+├── notes/                   # Folder containing all your .txt notes
+├── fine_tune_notes.py        # Train a lightweight model on your writing style
+├── build_hier_embeddings.py  # Build embeddings for hierarchical organization
+├── semantic_search_hier.py   # Run semantic search across notes
+├── requirements.txt          # Project dependencies
+└── README.md                 # This file
 
-
-
----
+```
 
 ## ⚙️ Setup & Run
 
