@@ -22,7 +22,7 @@ The system is designed to help users who frequently write notes but struggle to 
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/<your-username>/lookup.git
+git clone https://github.com/BitsJayMehta173/LooKuP.git
 cd lookup
 ```
 
