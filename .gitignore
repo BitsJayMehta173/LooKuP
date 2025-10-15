@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+
+# Model files
+model/embeddings.pkl
+model/all-MiniLM-L6-v2/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,43 +1,25 @@
 import os
-import numpy as np
-from sentence_transformers import SentenceTransformer
-import nltk
+import pickle
+from fine_tune_notes import setup_model
 
-nltk.download('punkt')
-
-EMBEDDINGS_DIR = "embeddings"
-MODEL_DIR = "model"
-
-def load_notes():
-    notes = []
-    file_names = []
-    notes_dir = "notes"
-    if not os.path.exists(notes_dir):
-        os.makedirs(notes_dir)
-    for fname in os.listdir(notes_dir):
-        if fname.endswith(".txt"):
-            path = os.path.join(notes_dir, fname)
-            with open(path, "r", encoding="utf-8") as f:
-                text = f.read()
-                sentences = nltk.tokenize.sent_tokenize(text)
-                notes.extend(sentences)
-                notes.append(text)  # also store full text
-                file_names.extend([fname]* (len(sentences)+1))
-    return notes, file_names
+NOTES_DIR = "notes"
+EMBEDDINGS_FILE = "model/embeddings.pkl"
 
 def build_embeddings():
-    notes, file_names = load_notes()
-    if not notes:
-        print("No notes found to embed.")
-        return
+    os.makedirs("model", exist_ok=True)
+    model = setup_model()
 
-    model = SentenceTransformer(MODEL_DIR)
+    notes = []
+    for file_name in os.listdir(NOTES_DIR):
+        if file_name.endswith(".txt"):
+            with open(os.path.join(NOTES_DIR, file_name), "r", encoding="utf-8") as f:
+                notes.append(f.read())
+
     embeddings = model.encode(notes, show_progress_bar=True)
 
-    os.makedirs(EMBEDDINGS_DIR, exist_ok=True)
-    np.save(os.path.join(EMBEDDINGS_DIR, "embeddings.npy"), embeddings)
-    np.save(os.path.join(EMBEDDINGS_DIR, "files.npy"), file_names)
-    print("Embeddings saved.")
+    with open(EMBEDDINGS_FILE, "wb") as f:
+        pickle.dump({"notes": notes, "embeddings": embeddings}, f)
+    print(f"Embeddings saved to {EMBEDDINGS_FILE}")
 
 if __name__ == "__main__":
     build_embeddings()
